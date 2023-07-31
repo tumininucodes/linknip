@@ -12,6 +12,17 @@ const (
 	largestuint64 = 18446744073709551615
 )
 
+func Base62Encode(number uint64) string {
+	length := len(alphabet)
+	var encodedBuilder strings.Builder
+	encodedBuilder.Grow(10)
+	for ; number > 0; number = number / uint64(length) {
+		encodedBuilder.WriteByte(alphabet[(number % uint64(length))])
+	}
+
+	return encodedBuilder.String()
+}
+
 func Base62Decode(encodedString string) (uint64, error) {
 	var number uint64
 	length := len(alphabet)
@@ -26,3 +37,4 @@ func Base62Decode(encodedString string) (uint64, error) {
 
 	return number, nil
 }
+
