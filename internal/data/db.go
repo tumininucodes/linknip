@@ -2,7 +2,7 @@ package data
 
 import (
 	"database/sql"
-	"github.com/go-sql-driver/mysql"
+	// "github.com/go-sql-driver/mysql"
 )
 
 
