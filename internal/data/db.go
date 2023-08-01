@@ -21,3 +21,4 @@ func OpenDB() *sql.DB {
 
 	return db
 }
+
