@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"linknip/internal/data"
 	"linknip/internal/helpers"
 
@@ -23,6 +24,7 @@ func main() {
 		if len(linkRequest.CustomSlug) != 0 {
 			linkId, err := helpers.Base62Decode(linkRequest.CustomSlug)
 			if err != nil {
+				fmt.Println("reaached here :)")
 				ctx.JSON(400, gin.H{"error": err.Error()})
 			}
 			link := data.Link {
