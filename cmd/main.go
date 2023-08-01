@@ -11,6 +11,8 @@ func main() {
 	
 	server := gin.Default()
 
+	db := data.OpenDB()
+
 	server.POST("/shorten", func(ctx *gin.Context) {
 		var linkRequest data.LinkRequest
 		err := ctx.ShouldBindJSON(linkRequest)
@@ -27,7 +29,7 @@ func main() {
 				Id: linkId,
 				Url: linkRequest.Url,
 			}
-			
+			ctx.JSON(201, data.InsertLink(db, &link))
 		}
 
 		// helpers.

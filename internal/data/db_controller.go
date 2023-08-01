@@ -2,6 +2,7 @@ package data
 
 import (
 	"database/sql"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -22,3 +23,14 @@ func OpenDB() *sql.DB {
 	return db
 }
 
+
+func InsertLink(db *sql.DB, link *Link) *Link {
+
+	_, err := db.Exec("INSERT INTO nips (id, url) VALUES (?, ?)", link.Id, link.Url)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	return link
+
+}
