@@ -26,11 +26,10 @@ func OpenDB() *sql.DB {
 
 func InsertLink(db *sql.DB, link *Link) *Link {
 
-	_, err := db.Exec("INSERT INTO nips (id, url) VALUES (?, ?)", link.Id, link.Url)
+	_, err := db.Exec("INSERT IGNORE INTO nips (id, url) VALUES (?, ?)", link.Id, link.Url)
 	if err != nil {
 		panic(err.Error())
 	}
 
 	return link
-
 }

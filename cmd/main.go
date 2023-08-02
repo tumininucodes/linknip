@@ -16,7 +16,7 @@ func main() {
 
 	server.POST("/shorten", func(ctx *gin.Context) {
 		var linkRequest data.LinkRequest
-		err := ctx.ShouldBindJSON(linkRequest)
+		err := ctx.ShouldBindJSON(&linkRequest)
 		if err != nil {
 			ctx.JSON(400, gin.H{"error": err.Error()})
 		}
@@ -24,17 +24,17 @@ func main() {
 		if len(linkRequest.CustomSlug) != 0 {
 			linkId, err := helpers.Base62Decode(linkRequest.CustomSlug)
 			if err != nil {
-				fmt.Println("reaached here :)")
+				fmt.Println("reaached here")
 				ctx.JSON(400, gin.H{"error": err.Error()})
 			}
 			link := data.Link {
 				Id: linkId,
 				Url: linkRequest.Url,
 			}
+
 			ctx.JSON(201, data.InsertLink(db, &link))
 		}
 
-		// helpers.
 	})
 
 
