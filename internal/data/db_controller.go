@@ -2,7 +2,6 @@ package data
 
 import (
 	"database/sql"
-
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -32,4 +31,26 @@ func InsertLink(db *sql.DB, link *Link) *Link {
 	}
 
 	return link
+}
+
+
+func GetLink(db *sql.DB, id uint64) *Link {
+
+	var link Link
+
+	result, err := db.Query("SELECT id, url FROM nips WHERE id = ?", id)
+	if err != nil {
+		panic(err.Error())
+	}
+	defer result.Close()
+
+	// for result.Next() {
+
+	// }
+	error := result.Scan(&link.Id, &link.Url)
+	if error != nil {
+		panic(error.Error())
+	}
+
+	return &link
 }
