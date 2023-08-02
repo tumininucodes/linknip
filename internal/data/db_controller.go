@@ -44,12 +44,11 @@ func GetLink(db *sql.DB, id uint64) *Link {
 	}
 	defer result.Close()
 
-	// for result.Next() {
-
-	// }
-	error := result.Scan(&link.Id, &link.Url)
-	if error != nil {
-		panic(error.Error())
+	for result.Next() {
+		error := result.Scan(&link.Id, &link.Url)
+		if error != nil {
+			panic(error.Error())
+		}
 	}
 
 	return &link

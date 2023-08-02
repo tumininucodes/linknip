@@ -37,14 +37,20 @@ func main() {
 
 	})
 
-	server.GET("/{slug}", func(ctx *gin.Context) {
+	server.GET("/:slug", func(ctx *gin.Context) {
 		slug := ctx.Param("slug")
 		id, err := helpers.Base62Decode(slug)
 		if err != nil {
 			ctx.JSON(400, gin.H {"error": err.Error()})
 		}
 
-		ctx.JSON(200, data.GetLink(db, id))
+		resolvedLink := data.GetLink(db, id)
+		if len(resolvedLink.Url) == 0 {
+			ctx.JSON(404, gin.H {"error": "no record found in database"})
+		} else {
+			ctx.JSON(200, gin.H {"shortenedUrl": resolvedLink.Url})
+		}
+		
 	})
 
 
