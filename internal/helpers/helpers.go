@@ -8,7 +8,6 @@ import (
 	"strings"
 )
 
-
 const (
 	alphabet      = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	largestuint64 = 18446744073709551615

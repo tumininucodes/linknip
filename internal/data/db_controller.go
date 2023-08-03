@@ -9,7 +9,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-
 func OpenDB() *sql.DB {
 
 	db, error := sql.Open("mysql", "root:alade2001@tcp(localhost:3306)/linknipdb")
@@ -26,7 +25,6 @@ func OpenDB() *sql.DB {
 	return db
 }
 
-
 func InsertLink(db *sql.DB, link *Link) (value *Link, error *error) {
 
 	_, err := db.Exec("INSERT INTO nips (id, url) VALUES (?, ?)", fmt.Sprintf("%+v", link.Id), link.Url)
@@ -42,9 +40,8 @@ func InsertLink(db *sql.DB, link *Link) (value *Link, error *error) {
 			return link, nil
 		}
 	}
-	
-} 
 
+}
 
 func GetLink(db *sql.DB, id uint64) *Link {
 

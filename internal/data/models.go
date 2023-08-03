@@ -1,8 +1,8 @@
 package data
 
 type LinkRequest struct {
-	Url 		string `json:"url"`
-	CustomSlug 	string `json:"customSlug"`
+	Url        string `json:"url"`
+	CustomSlug string `json:"customSlug"`
 }
 
 type LinkResponse struct {
@@ -10,7 +10,7 @@ type LinkResponse struct {
 }
 
 type Link struct {
-	Id	string `json:"id"`
+	Id   string `json:"id"`
 	Slug string `json:"slug"`
-	Url string `json:"url"`		
+	Url  string `json:"url"`
 }
