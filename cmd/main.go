@@ -48,7 +48,8 @@ func main() {
 		if len(resolvedLink.Url) == 0 {
 			ctx.JSON(404, gin.H {"error": "no record found in database"})
 		} else {
-			ctx.JSON(200, gin.H {"shortenedUrl": resolvedLink.Url})
+			ctx.Redirect(302, resolvedLink.Url)
+			// ctx.JSON(200, gin.H {"shortenedUrl": resolvedLink.Url})
 		}
 		
 	})
