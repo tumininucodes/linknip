@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"linknip/internal/data"
 	"linknip/internal/helpers"
 
@@ -24,7 +23,6 @@ func main() {
 		if len(linkRequest.CustomSlug) != 0 {
 			linkId, err := helpers.Base62Decode(linkRequest.CustomSlug)
 			if err != nil {
-				fmt.Println("reaached here")
 				ctx.JSON(400, gin.H{"error": err.Error()})
 			}
 			link := data.Link {
@@ -32,7 +30,13 @@ func main() {
 				Url: linkRequest.Url,
 			}
 
-			ctx.JSON(201, data.InsertLink(db, &link))
+			result, error := data.InsertLink(db, &link)
+			if error != nil {
+				ctx.JSON(400, gin.H {"error": "record already exists"})
+			} else {
+				ctx.JSON(201, result)
+			}
+			
 		}
 
 	})
@@ -42,16 +46,14 @@ func main() {
 		id, err := helpers.Base62Decode(slug)
 		if err != nil {
 			ctx.JSON(400, gin.H {"error": err.Error()})
-		}
-
-		resolvedLink := data.GetLink(db, id)
-		if len(resolvedLink.Url) == 0 {
-			ctx.JSON(404, gin.H {"error": "no record found in database"})
 		} else {
-			ctx.Redirect(302, resolvedLink.Url)
-			// ctx.JSON(200, gin.H {"shortenedUrl": resolvedLink.Url})
+			resolvedLink := data.GetLink(db, id)
+			if len(resolvedLink.Url) == 0 {
+				ctx.JSON(404, gin.H {"error": "no record found in database"})
+			} else {
+				ctx.Redirect(302, resolvedLink.Url)
+			}
 		}
-		
 	})
 
 

@@ -2,6 +2,8 @@ package data
 
 import (
 	"database/sql"
+	"fmt"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -23,15 +25,19 @@ func OpenDB() *sql.DB {
 }
 
 
-func InsertLink(db *sql.DB, link *Link) *Link {
+func InsertLink(db *sql.DB, link *Link) (value *Link, error *error) {
 
-	_, err := db.Exec("INSERT IGNORE INTO nips (id, url) VALUES (?, ?)", link.Id, link.Url)
+	_, err := db.Exec("INSERT INTO nips (id, url) VALUES (?, ?)", fmt.Sprintf("%+v", link.Id), link.Url)
 	if err != nil {
-		panic(err.Error())
+		println("there is an error", err.Error())
+		return nil, &err
+		// panic(err.Error())
+	} else {
+		println("there is no error")
+		return link, nil
 	}
 
-	return link
-}
+} 
 
 
 func GetLink(db *sql.DB, id uint64) *Link {
