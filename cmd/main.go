@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"linknip/internal/data"
 	"linknip/internal/helpers"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,8 +20,18 @@ func main() {
 			ctx.JSON(400, gin.H{"error": err.Error()})
 		}
 
+		var slug string
+
 		if len(linkRequest.CustomSlug) != 0 {
-			linkId, err := helpers.Base62Decode(linkRequest.CustomSlug)
+			slug = linkRequest.CustomSlug
+		} else {
+			slug, err = helpers.GenerateRandomString(5)
+			if err != nil {
+				panic(err.Error())
+			}
+		}
+
+		linkId, err := helpers.Base62Decode(slug)
 			if err != nil {
 				ctx.JSON(400, gin.H{"error": err.Error()})
 			}
@@ -38,8 +47,6 @@ func main() {
 				ctx.JSON(201, result)
 			}
 			
-		}
-
 	})
 
 	server.GET("/:slug", func(ctx *gin.Context) {

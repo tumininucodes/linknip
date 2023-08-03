@@ -3,6 +3,8 @@ package data
 import (
 	"database/sql"
 	"fmt"
+	"linknip/internal/helpers"
+	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -29,14 +31,18 @@ func InsertLink(db *sql.DB, link *Link) (value *Link, error *error) {
 
 	_, err := db.Exec("INSERT INTO nips (id, url) VALUES (?, ?)", fmt.Sprintf("%+v", link.Id), link.Url)
 	if err != nil {
-		println("there is an error", err.Error())
 		return nil, &err
-		// panic(err.Error())
 	} else {
-		println("there is no error")
-		return link, nil
+		uint64Value, err := strconv.ParseUint(link.Id, 10, 64)
+		if err != nil {
+			return nil, &err
+		} else {
+			slug := helpers.Base62Encode(uint64Value)
+			link.Slug = slug
+			return link, nil
+		}
 	}
-
+	
 } 
 
 

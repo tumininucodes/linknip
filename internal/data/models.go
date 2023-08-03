@@ -11,5 +11,6 @@ type LinkResponse struct {
 
 type Link struct {
 	Id	string `json:"id"`
+	Slug string `json:"slug"`
 	Url string `json:"url"`		
 }
