@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"linknip/internal/data"
 	"linknip/internal/helpers"
 
@@ -26,7 +27,7 @@ func main() {
 				ctx.JSON(400, gin.H{"error": err.Error()})
 			}
 			link := data.Link {
-				Id: linkId,
+				Id: fmt.Sprintf("%+v", linkId),
 				Url: linkRequest.Url,
 			}
 
