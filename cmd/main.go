@@ -20,6 +20,11 @@ func main() {
 			ctx.JSON(400, gin.H{"error": err.Error()})
 		}
 
+		if !helpers.IsUrl(linkRequest.Url) {
+			ctx.JSON(400, gin.H {"error": "invalid url"})
+			return
+		}
+
 		var slug string
 
 		if len(linkRequest.CustomSlug) != 0 {

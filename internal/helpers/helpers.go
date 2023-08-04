@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"math"
+	"net/url"
 	"strings"
 )
 
@@ -47,4 +48,9 @@ func GenerateRandomString(length int) (string, error) {
 	}
 	randomString := base64.URLEncoding.EncodeToString(randomBytes)
 	return randomString[:length], nil
+}
+
+func IsUrl(str string) bool {
+    u, err := url.Parse(str)
+    return err == nil && u.Scheme != "" && u.Host != ""
 }
